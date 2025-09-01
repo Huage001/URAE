@@ -1,0 +1,94 @@
+[tool.poetry]
+name = "flux-training"
+version = "0.1.0"
+description = "FLUX training and inference pipeline"
+authors = ["Your Name <your.email@example.com>"]
+readme = "README.md"
+packages = [{include = ".", from = "."}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+torch = ">=2.1.0"
+transformers = "*"
+diffusers = "0.31.0"
+sentencepiece = "*"
+accelerate = "*"
+opencv-python = "*"
+peft = "*"
+wandb = "*"
+jupyter = "*"
+patch_conv = "*"
+prodigyopt = "*"
+
+[tool.poetry.group.test.dependencies]
+pytest = "^7.0"
+pytest-cov = "^4.0"
+pytest-mock = "^3.0"
+
+# Note: Use 'poetry run test' or 'poetry run pytest' to run tests
+# Scripts are not needed since pytest is available directly
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--cov=.",
+    "--cov-report=html:htmlcov",
+    "--cov-report=xml:coverage.xml",
+    "--cov-report=term-missing",
+    "--cov-fail-under=80",
+    "--strict-markers",
+    "--strict-config",
+    "-ra"
+]
+markers = [
+    "unit: Unit tests",
+    "integration: Integration tests",
+    "slow: Slow running tests"
+]
+filterwarnings = [
+    "error",
+    "ignore::UserWarning",
+    "ignore::DeprecationWarning"
+]
+
+[tool.coverage.run]
+source = ["."]
+omit = [
+    "tests/*",
+    "*/tests/*",
+    "test_*.py",
+    "*_test.py",
+    "setup.py",
+    "conftest.py",
+    ".venv/*",
+    "venv/*",
+    ".pytest_cache/*",
+    "htmlcov/*"
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:"
+]
+show_missing = true
+precision = 2
+
+[tool.coverage.html]
+directory = "htmlcov"
+
+[tool.coverage.xml]
+output = "coverage.xml"
